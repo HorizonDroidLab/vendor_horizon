@@ -42,7 +42,6 @@ SOONG_CONFIG_horizonGlobalVars += \
     target_health_charging_control_supports_toggle \
     target_libcameraservice_ext_lib \
     target_init_vendor_lib \
-    target_ld_shim_libs \
     target_power_libperfmgr_mode_extension_lib \
     target_powershare_path \
     target_powershare_enabled \
