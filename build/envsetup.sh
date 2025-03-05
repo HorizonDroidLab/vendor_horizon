@@ -6,12 +6,12 @@ function check_product()
         echo "Couldn't locate the top of the tree. Try setting TOP." >&2
         return
     fi
-    if (echo -n $1 | grep -q -e "^aosp_") ; then
-        CUSTOM_BUILD=$(echo -n $1 | sed -e 's/^aosp_//g')
+    if (echo -n $1 | grep -q -e "^horizon_") ; then
+        HORIZON_BUILD=$(echo -n $1 | sed -e 's/^horizon_//g')
     else
-        CUSTOM_BUILD=
+        HORIZON_BUILD=
     fi
-    export CUSTOM_BUILD
+    export HORIZON_BUILD
 
         TARGET_PRODUCT=$1 \
         TARGET_RELEASE=$2 \
@@ -26,7 +26,7 @@ function brunch()
 {
     breakfast $*
     if [ $? -eq 0 ]; then
-        mka bacon
+        mka horizon
     else
         echo "No such item in brunch menu. Try 'breakfast'"
         return 1
@@ -38,7 +38,7 @@ function breakfast()
 {
     target=$1
     local variant=$2
-    source ${ANDROID_BUILD_TOP}/vendor/aosp/vars/aosp_target_release
+    source ${ANDROID_BUILD_TOP}/vendor/horizon/vars/aosp_target_release
 
     if [ $# -eq 0 ]; then
         # No arguments, so let's have the full menu
@@ -53,7 +53,7 @@ function breakfast()
                 variant="userdebug"
             fi
 
-            lunch aosp_$target-$aosp_target_release-$variant
+            lunch horizon_$target-$aosp_target_release-$variant
         fi
     fi
     return $?
@@ -72,13 +72,13 @@ function eat()
         echo "Waiting for device..."
         adb wait-for-device-recovery
         echo "Found device"
-        if (adb shell getprop ro.custom.device | grep -q "$CUSTOM_BUILD"); then
+        if (adb shell getprop ro.horizon.device | grep -q "$HORIZON_BUILD"); then
             echo "Rebooting to sideload for install"
             adb reboot sideload-auto-reboot
             adb wait-for-sideload
             adb sideload $ZIPPATH
         else
-            echo "The connected device does not appear to be $CUSTOM_BUILD, run away!"
+            echo "The connected device does not appear to be $HORIZON_BUILD, run away!"
         fi
         return $?
     else
@@ -326,14 +326,14 @@ function installboot()
     adb wait-for-device-recovery
     adb root
     adb wait-for-device-recovery
-    if (adb shell getprop ro.custom.device | grep -q "$CUSTOM_BUILD");
+    if (adb shell getprop ro.horizon.device | grep -q "$HORIZON_BUILD");
     then
         adb push $OUT/boot.img /cache/
         adb shell dd if=/cache/boot.img of=$PARTITION
         adb shell rm -rf /cache/boot.img
         echo "Installation complete."
     else
-        echo "The connected device does not appear to be $CUSTOM_BUILD, run away!"
+        echo "The connected device does not appear to be $HORIZON_BUILD, run away!"
     fi
 }
 
@@ -364,14 +364,14 @@ function installrecovery()
     adb wait-for-device-recovery
     adb root
     adb wait-for-device-recovery
-    if (adb shell getprop ro.custom.device | grep -q "$CUSTOM_BUILD");
+    if (adb shell getprop ro.horizon.device | grep -q "$HORIZON_BUILD");
     then
         adb push $OUT/recovery.img /cache/
         adb shell dd if=/cache/recovery.img of=$PARTITION
         adb shell rm -rf /cache/recovery.img
         echo "Installation complete."
     else
-        echo "The connected device does not appear to be $CUSTOM_BUILD, run away!"
+        echo "The connected device does not appear to be $HORIZON_BUILD, run away!"
     fi
 }
 
@@ -383,7 +383,7 @@ function cmka() {
     if [ ! -z "$1" ]; then
         for i in "$@"; do
             case $i in
-                bacon|otapackage|systemimage)
+                horizon|otapackage|systemimage)
                     mka installclean
                     mka $i
                     ;;
@@ -447,7 +447,7 @@ function dopush()
         echo "Device Found."
     fi
 
-    if (adb shell getprop ro.custom.device | grep -q "$CUSTOM_BUILD") || [ "$FORCE_PUSH" = "true" ];
+    if (adb shell getprop ro.horizon.device | grep -q "$HORIZON_BUILD") || [ "$FORCE_PUSH" = "true" ];
     then
     # retrieve IP and PORT info if we're using a TCP connection
     TCPIPPORT=$(adb devices \
@@ -566,7 +566,7 @@ EOF
     rm -f $OUT/.log
     return 0
     else
-        echo "The connected device does not appear to be $CUSTOM_BUILD, run away!"
+        echo "The connected device does not appear to be $HORIZON_BUILD, run away!"
     fi
 }
 
@@ -579,7 +579,7 @@ alias cmkap='dopush cmka'
 
 function repopick() {
     T=$(gettop)
-    $T/vendor/aosp/build/tools/repopick.py $@
+    $T/vendor/horizon/build/tools/repopick.py $@
 }
 
 function sort-blobs-list() {
