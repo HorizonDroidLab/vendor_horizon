@@ -1,6 +1,9 @@
 # Allow vendor/extra to override any property by setting it first
 $(call inherit-product-if-exists, vendor/extra/product.mk)
 
+# Addons
+$(call inherit-product, vendor/addons/config.mk)
+
 # Google Apps
 $(call inherit-product, vendor/gms/products/gms.mk)
 
@@ -146,9 +149,6 @@ ifneq ($(TARGET_DISABLE_EPPE),true)
 # Require all requested packages to exist
 $(call enforce-product-packages-exist-internal,$(wildcard device/*/$(CUSTOM_BUILD)/$(TARGET_PRODUCT).mk),product_manifest.xml rild Calendar Launcher3 Launcher3Go Launcher3QuickStep Launcher3QuickStepGo android.hidl.memory@1.0-impl.vendor vndk_apex_snapshot_package)
 endif
-
-# Bootanimation
-include vendor/horizon/config/bootanimation.mk
 
 # Charger
 PRODUCT_PACKAGES += \
