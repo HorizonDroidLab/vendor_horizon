@@ -50,8 +50,7 @@ SOONG_CONFIG_horizonGlobalVars += \
     target_trust_usb_control_path \
     target_trust_usb_control_enable \
     target_trust_usb_control_disable \
-    uses_egl_display_array \
-    uses_oplus_camera
+    uses_egl_display_array
 
 ifneq ($(TARGET_HEALTH_CHARGING_CONTROL_CHARGING_PATH),)
 SOONG_CONFIG_horizonGlobalVars += \
