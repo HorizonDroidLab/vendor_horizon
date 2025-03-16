@@ -1,5 +1,5 @@
-HORIZON_REVISION := v5.0
-HORIZON_CODENAME := Nebula
+HORIZON_REVISION := v5.1
+HORIZON_CODENAME := Aquila
 HORIZON_BUILD_DATE := $(shell date +"%d%m%Y-%H%M")
 
 MAINTAINER_LIST = $(shell cat horizon-maintainers/maintainers.list)
