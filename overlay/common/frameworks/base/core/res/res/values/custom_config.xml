@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+     Copyright (C) 2025 HorizonDroid
+     SPDX-License-Identifier: Apache-2.0
+-->
+<resources>
+    <!-- Build properties from a GMS certified device against current platform SPL level -->
+    <string-array name="config_certifiedBuildProperties" translatable="false">
+        <item>PRODUCT:oriole_beta</item>
+        <item>DEVICE:oriole</item>
+        <item>MANUFACTURER:Google</item>
+        <item>BRAND:google</item>
+        <item>MODEL:Pixel 6</item>
+	<item>FINGERPRINT:google/oriole_beta/oriole:16/BP22.250221.010/13193326:user/release-keys</item>
+	<item>VERSION.SECURITY_PATCH:2025-03-05</item>
+    </string-array>
+</resources>
